@@ -2,39 +2,31 @@ import streamlit as st
 import requests
 
 
-st.set_page_config(page_title="Bible Search", page_icon="☻", layout="wide")
+st.set_page_config(page_title="Bible Search", page_icon="☻", layout="centered")
 
-# Title and description
-st.title("Search a Bible Verse ☻")
-st.markdown("**Read the Bible, King James Version**")
+st.title("Search a Bible Verse (KJV)")
 
-# Sidebar with instructions
 with st.sidebar:
-    st.header("HOW TO SEARCH")
+    st.header("Search Instructions ☻")
     st.markdown("""
-    **Enter a book and verse in these formats:**
     
     - `John 3` for an entire chapter
     - `John 3:16` for a single verse
     - `John 3:16-20` for a range of verses
     - `John 3:16-4:10` for multiple chapters
-    
-    **For example:**
-    - Genesis 1:1
-    - Psalm 23
-    - Romans 8:28-39
     """)
 
-# Main input area
-col1, col2 = st.columns([3, 1])
+col1, col2, col3 = st.columns([1, 0.5, 0.5])
 
 with col1:
-    book = st.text_input("Name of book:", placeholder="e.g., John")
+    book = st.text_input("Book Name", placeholder="Genesis")
     
 with col2:
-    verse = st.text_input("Chapter & verse:", placeholder="e.g., 3:16")
+    verse = st.text_input("Chapter + Verse", placeholder="1:1")
 
-search_button = st.button("Search", use_container_width=True, type="primary")
+with col3:
+    st.markdown("<br>", unsafe_allow_html=True)
+    search_button = st.button("Search", type="primary")
 
 
 def get_verse(book, verse):
@@ -46,9 +38,8 @@ def get_verse(book, verse):
             return
         elif response.status_code == 200: # if successful
             bible_content = response.json()
-            st.success(f"Let's read {bible_content['reference']}!")
-        
             st.markdown("---")
+            st.badge(f"{bible_content['reference']}:")
             verses = bible_content["verses"]
             
             for v in verses:
@@ -60,26 +51,26 @@ def get_verse(book, verse):
                     # st.markdown("") 
         
         else:
-            st.warning(f"⚠️ unexpected error (Status code: {response.status_code})")
+            st.warning(f"Unexpected error. (Status code: {response.status_code})")
             # wha does this do?
             # like catching the errors
     except Exception as e:
-        st.error(f"an error occurred: {str(e)}")
+        st.error(f"An error occurred: {str(e)}")
 
 # searching stuff
 if search_button:
     if book and verse:
-        with st.spinner("searching..."):
+        with st.spinner("Searching..."):
             get_verse(book, verse)
     elif book and not verse:
-        st.warning("⚠️ please enter a chapter and verse.")
+        st.warning("Please enter a chapter and verse.")
     else:
-        st.warning("⚠️ please enter both a book name and verse.")
+        st.warning("Please enter both a book name and verse.")
 
-# Footer
-st.markdown("---")
+
+
 st.markdown("""
 <div style='text-align: center; color: gray;'>
-    <small>Data provided by <a href='https://bible-api.com/' target='_blank'>Bible API</a></small>
+    <small>Made with ❤️ by Fay</small>
 </div>
 """, unsafe_allow_html=True)
