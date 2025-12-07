@@ -21,7 +21,7 @@ if "verse_results" not in st.session_state:
  
 st.title("`welcome ☻`")
 st.markdown("---")
-st.markdown("""<style>h1 { color: #1866cc }</style> <h1>Search a Bible Verse in KJV</h1>""", unsafe_allow_html=True)
+st.markdown("""<style>h1 { color: #1866cc }</style> <h1>lookup a chapter/verse in KJV</h1>""", unsafe_allow_html=True)
 # want this color: #1866cc
 
 
@@ -98,7 +98,7 @@ if search_button:
 display_verse(st.session_state.verse_results)
         
 st.markdown("---")
-st.markdown("`ask questions below to our silly little gpt 3.5 turbo`")
+st.markdown("`chat with gpt 3.5 turbo`")
 
 # implement large language model
 
@@ -114,7 +114,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if prompt := st.chat_input("Ask a question here..."):
+if prompt := st.chat_input("ask a question...git"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
