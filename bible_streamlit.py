@@ -36,7 +36,7 @@ if "verse_results" not in st.session_state:
     st.session_state.verse_results = None
  
 st.title("`☻ welcome`")
-st.markdown("`to your KJV lookup. Made to supplement (not replace!) your Bible studies and daily devos.`")
+st.markdown("`to your personal KJV lookup. Made to **supplement** your Bible studies and daily devos.`")
 st.markdown("---")
 st.markdown("""<style>h1 { color: #1866cc }</style> <h1>lookup a chapter or verse:</h1>""", unsafe_allow_html=True)
 # want this color: #1866cc
@@ -114,6 +114,7 @@ if search_button:
 display_verse(st.session_state.verse_results)
         
 st.markdown("---")
+st.markdown("`search a verse or chapter, and ask me anything about it!`")
 
 
 # implement large language model
