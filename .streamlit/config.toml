@@ -1,10 +1,9 @@
 [theme]
 base="light"
 primaryColor="#ed665f"
-backgroundColor="#faeee1"
-secondaryBackgroundColor="#fff"
+secondaryBackgroundColor="#faeee1"
+backgroundColor="#fff"
 textColor="#333"
-font="monospace"
+font="Karla:https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap"
 
-[theme.sidebar]
-font="sans-serif"
+

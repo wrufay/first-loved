@@ -5,10 +5,22 @@ import requests
 
 st.set_page_config(page_title="Fay's Bible", page_icon="☻", layout="centered")
 
+st.markdown("""
+<style>
+    [data-testid="stChatMessageAvatarUser"],
+    [data-testid="stChatMessageAvatarAssistant"],
+    .stChatMessage img,
+    .stChatMessage svg {
+        display: none !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 if "verse_results" not in st.session_state:
     st.session_state.verse_results = None
  
-st.title("`your daily bread ☻`")
+st.title("`welcome to your daily bread ☻`")
+st.markdown("---")
 st.header("Search a Bible Verse in KJV")
 # want this color: #1866cc
 
