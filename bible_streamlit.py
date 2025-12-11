@@ -2,6 +2,7 @@ from openai import OpenAI
 import streamlit as st
 import requests
 from datetime import datetime
+from zoneinfo import ZoneInfo
 # scratched the clipboard thing but might come back to it
 # from st_copy_to_clipboard import st_copy_to_clipboard
 from supabase import create_client
@@ -84,10 +85,24 @@ st.markdown("""<style>h1 { color: #1866cc }</style> <h1>lookup a chapter or vers
 # note: want this color #1866cc
 
 
+# get user's timezone from browser
+from streamlit_js_eval import streamlit_js_eval
+
+if "user_tz" not in st.session_state:
+    st.session_state.user_tz = None
+
+tz_string = streamlit_js_eval(js_expressions="Intl.DateTimeFormat().resolvedOptions().timeZone", key="tz")
+if tz_string:
+    st.session_state.user_tz = tz_string
+
 # sidebar!
 with st.sidebar:
     # full date and time
-    now = datetime.now()
+    try:
+        user_tz = ZoneInfo(st.session_state.user_tz) if st.session_state.user_tz else ZoneInfo("America/Los_Angeles")
+    except:
+        user_tz = ZoneInfo("America/Los_Angeles")
+    now = datetime.now(user_tz)
     #st.markdown(f"**{now.strftime('%A, %B %d')}** {now.strftime('%I:%M %p').lstrip('0')}")
     col1, col2 = st.columns([3, 1])
     with col1:

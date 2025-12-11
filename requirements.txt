@@ -3,3 +3,4 @@ requests
 st-copy-to-clipboard
 supabase
 datetime
+streamlit-js-eval
