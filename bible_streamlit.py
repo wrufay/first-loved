@@ -6,6 +6,7 @@ from zoneinfo import ZoneInfo
 # scratched the clipboard thing but might come back to it
 # from st_copy_to_clipboard import st_copy_to_clipboard
 from supabase import create_client
+from streamlit_js_eval import streamlit_js_eval
 
 # setup supabase
 supabase = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
@@ -77,23 +78,18 @@ st.markdown("""
 # init
 if "verse_results" not in st.session_state:
     st.session_state.verse_results = None
+if "user_tz" not in st.session_state:
+    st.session_state.user_tz = None
+tz_string = streamlit_js_eval(js_expressions="Intl.DateTimeFormat().resolvedOptions().timeZone", key="tz")
+if tz_string:
+    st.session_state.user_tz = tz_string
  
  
 # title and header of page
 st.write("**welcome!** open sidebar for more.")
 st.markdown("""<style>h1 { color: #1866cc }</style> <h1>lookup a chapter or verse:</h1>""", unsafe_allow_html=True)
-# note: want this color #1866cc
+# note: #1866cc
 
-
-# get user's timezone from browser
-from streamlit_js_eval import streamlit_js_eval
-
-if "user_tz" not in st.session_state:
-    st.session_state.user_tz = None
-
-tz_string = streamlit_js_eval(js_expressions="Intl.DateTimeFormat().resolvedOptions().timeZone", key="tz")
-if tz_string:
-    st.session_state.user_tz = tz_string
 
 # sidebar!
 with st.sidebar:
