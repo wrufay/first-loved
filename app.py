@@ -166,6 +166,20 @@ def get_saved_verses():
         st.error(f"Failed to load saved verses: {str(e)}")
         return []
 
+def group_verses_by_book(verses):
+    """Group verses by their book name"""
+    from collections import defaultdict
+    grouped = defaultdict(list)
+
+    for verse in verses:
+        book, _ = parse_reference(verse['reference'])
+        if book:
+            grouped[book].append(verse)
+        else:
+            grouped["Other"].append(verse)
+
+    return dict(grouped)
+
 def delete_saved_verse(verse_id):
     """Delete a saved verse"""
     try:
@@ -264,6 +278,11 @@ st.markdown("""
     .stForm small {
         display: none !important;
     }
+
+    /*hide streamlit footer*/
+    footer {
+        visibility: hidden;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -312,9 +331,13 @@ with st.sidebar:
         if not saved_verses:
             st.caption("None yet.")
         else:
-            for verse in saved_verses:
-                if st.button(f"✱ {verse['reference']}", key=f"verse_{verse['id']}"):
-                    verse_detail_modal(verse)
+            grouped_verses = group_verses_by_book(saved_verses)
+
+            for book, verses in grouped_verses.items():
+                with st.expander(f"{book}", expanded=True):
+                    for verse in verses:
+                        if st.button(f"✱ {verse['reference']}", key=f"verse_{verse['id']}"):
+                            verse_detail_modal(verse)
 
     else: # if user is not logged in, don't show
         if st.button("Log in", key="open_auth_modal"):
