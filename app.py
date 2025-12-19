@@ -281,7 +281,12 @@ st.markdown("""
 
     /*hide streamlit footer*/
     footer {
-        visibility: hidden;
+        visibility: hidden !important;
+        display: none !important;
+    }
+    footer::after {
+        visibility: hidden !important;
+        display: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
