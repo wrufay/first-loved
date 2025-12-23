@@ -1,10 +1,3 @@
-# NOTES (not for today cuz LATE)
-# actually add a section talking about why this app was made
-# and like who is Jesus and stuff like that
-# or at least provide a link to it 
-# but yeah what's the goal again YE preach the Word amen.
-
-
 from openai import OpenAI
 import streamlit as st
 import requests
@@ -19,7 +12,7 @@ from streamlit_js_eval import streamlit_js_eval
 supabase = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 
 # setup page
-st.set_page_config(page_title="۫love letter from J ꣑ৎ", page_icon="jesus.png", layout="centered")
+st.set_page_config(page_title="my۫bible ꣑ৎ", page_icon="jesus.png", layout="centered")
 
 # login authentication featurss
 def init_auth_state():
@@ -219,7 +212,7 @@ def verse_detail_modal(verse):
     
     # get notes
     if verse.get('notes') and verse['notes'].strip():
-        st.markdown(f':red[{verse['notes']}]')
+        st.markdown(f':red[{verse["notes"]}]')
     else:
         # maybe make a way you can add notes / edit
         st.caption("No notes written.")
