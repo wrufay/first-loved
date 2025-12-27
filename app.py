@@ -4,6 +4,7 @@ import requests
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import os
+import base64
 
 
 # removed st_tailwind - was causing alignment issues
@@ -418,7 +419,14 @@ if tz_string:
  
 # title and header of page
 st.markdown("<p style='color: #f56476;'>The Bible is more than a book; it's God's love letter to you</p>", unsafe_allow_html=True)
-st.header("You are *firstloved*, open it 💌 today. ꣑ৎ")
+
+# encode letter image to base64 for inline display
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+letter_img_base64 = get_base64_image("letter.png")
+st.markdown(f"<h2 style='text-align: center;'>You are <em>firstloved</em>, open it <img src='data:image/png;base64,{letter_img_base64}' width='30' style='vertical-align: middle;'> today. ꣑ৎ</h2>", unsafe_allow_html=True)
 # note: #1866cc
 
 
@@ -494,8 +502,8 @@ with st.sidebar:
     
 st.write("")
 st.write("")
-# front page columns (search tool)
-col1, col2, col3 = st.columns([1, 1, 1])
+# front page columns (search tool) - using empty columns to center
+_, col1, col2, col3, _ = st.columns([0.5, 1, 1, 1, 0.5])
 with col1:
     TRANSLATIONS = {
         "kjv": "King James Version",
@@ -517,12 +525,12 @@ with col3:
 
 st.write("")
 st.write("")
-btn_col1, btn_col2 = st.columns(2)
+_, btn_col1, btn_col2, _ = st.columns([0.5, 1, 1, 0.5])
 with btn_col1:
     if "show_ai_chat" not in st.session_state:
         st.session_state.show_ai_chat = False
 
-    if st.button("˚꩜｡ Learn from Claude" if not st.session_state.show_ai_chat else "˚꩜｡ Hide", use_container_width=True):
+    if st.button("˚꩜｡ Ask Claude" if not st.session_state.show_ai_chat else "˚꩜｡ Hide", use_container_width=True):
         st.session_state.show_ai_chat = not st.session_state.show_ai_chat
         st.rerun()
 with btn_col2:
@@ -629,7 +637,7 @@ if st.session_state.get("show_ai_chat", False):
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    if prompt := st.chat_input("I'm Claude, ask me anything!"):
+    if prompt := st.chat_input("need context, definitions or clarification?"):
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
