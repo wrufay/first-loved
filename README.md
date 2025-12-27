@@ -1,4 +1,4 @@
-### the Bible: the greatest love letter we could ever recieve. ꣑ৎ
+## the Bible: the greatest love letter we could ever recieve. ꣑ৎ
 
 **Why I made _firstloved_**
 
@@ -38,4 +38,4 @@
 
 This project is open source, I'm also _open to collaborate and open to feedback!_ **f26wu[at]uwaterloo[dot]ca**
 
-## Thanks for stopping by. I hope you get to open your letter today, have a good one ♡
+### Thanks for stopping by. I hope you get to open your letter today, have a good one ♡
