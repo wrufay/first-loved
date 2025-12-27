@@ -4,14 +4,14 @@
 no more clunky features that get in the way of the word, just search a verse and get exactly what you want.
 featuring:
 
-- a biblical ai chatbot powered by gpt 3.5 turbo for easy context searching, clarifications or definitions right **_on the spot_**
+- a biblical ai chatbot powered by claude 4.5 opus for easy context searching, clarifications or definitions right **_on the spot_**
 - login to make an account and **_save verses_** with or without notes, easily visible in the sidebar **_organized_** by book name
 - **_four different bible translations_** to suit your needs, with quick fetching and **_simple ui_**, allowing you to focus on the content rather than distractions.
 
 **tech stack:**
 
 - made purely using **_python_** with the **_streamlit_** framework.
-- **apis and databases:** this app uses openai API, supabase, and bible api from https://bible-api.com
+- **apis and databases:** this app uses Claude API, supabase, and bible api from https://bible-api.com
 - deployed on **_render_** using **_docker_** to package the app.
 
 no more jumping around, navigating through a sea of google tabs during your daily bible study. one stop, dailybread.

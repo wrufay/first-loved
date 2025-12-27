@@ -1,9 +1,15 @@
-from openai import OpenAI
+from anthropic import Anthropic
 import streamlit as st
 import requests
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import os
+
+
+# removed st_tailwind - was causing alignment issues
+
+
+
 # scratched the clipboard thing but might come back to it
 # from st_copy_to_clipboard import st_copy_to_clipboard
 from supabase import create_client
@@ -15,7 +21,10 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY") or st.secrets.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # setup page
-st.set_page_config(page_title="my۫bible ꣑ৎ", page_icon="jesus.png", layout="centered")
+st.set_page_config(page_title="You are loved. ꣑ৎ", page_icon="logo.png", layout="centered", initial_sidebar_state="expanded")
+
+
+
 
 # login authentication featurss
 def init_auth_state():
@@ -31,7 +40,7 @@ def auth_modal():
     #logo
     # st.image("bread.ico", width=67)
     # NOTE: need to fix the forgot password, actually add the logic
-    tab1, tab2 = st.tabs(["Log in", "I'm new here"]) 
+    tab1, tab2 = st.tabs(["Log in ⊹₊˚", "I'm new here"]) 
 
     with tab1:
         # LOGIN
@@ -259,6 +268,8 @@ Tone: Warm, thoughtful, and encouraging."""
 # css custom styling changes
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Shizuru&family=Yomogi&display=swap');
+
     /*hide the AI profile pictures too corny LOL*/
     [data-testid="stChatMessageAvatarUser"],
     [data-testid="stChatMessageAvatarAssistant"],
@@ -266,13 +277,94 @@ st.markdown("""
     .stChatMessage svg {
         display: none !important;
     }
-
     /*hide the text inside the feedback form (too crowded)*/
     .stForm [data-testid="stFormSubmitButton"]::after {
         display: none !important;
     }
     .stForm small {
         display: none !important;
+    }
+    .stApp {
+        background: linear-gradient(135deg, #ffeef2, #ffe0e9);
+        text-align: center;
+    }
+
+    /* sidebar styling */
+    [data-testid="stSidebar"] {
+        background-color: #fff5f7 !important;
+    }
+    [data-testid="stSidebar"] > div:first-child {
+        background-color: #fff5f7 !important;
+    }
+    [data-testid="stSidebar"] * {
+        text-align: left !important;
+    }
+    /* center footer in sidebar */
+    [data-testid="stSidebar"] .sidebar-footer {
+        text-align: center !important;
+    }
+    [data-testid="stSidebar"] .sidebar-footer * {
+        text-align: center !important;
+    }
+
+    /* chat message styling */
+    .stChatMessage {
+        text-align: left !important;
+    }
+    .stChatMessage * {
+        text-align: left !important;
+    }
+
+    /* claude AI chat text color */
+    [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {
+        color: #333 !important;
+    }
+    [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) p,
+    [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) div {
+        color: #333 !important;
+    }
+
+    /* user chat text color */
+    [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {
+        color: #333 !important;
+    }
+    [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) p,
+    [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) div {
+        color: #333 !important;
+    }
+
+    /* remove background from user messages */
+    [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {
+        background-color: transparent !important;
+    }
+    [data-testid="stChatMessage"] [data-testid="stChatMessageContent"] {
+        background-color: transparent !important;
+    }
+    .stChatMessage:has([data-testid="stChatMessageAvatarUser"]) {
+        background-color: transparent !important;
+    }
+    .stChatMessage:has([data-testid="stChatMessageAvatarUser"]) > div {
+        background-color: transparent !important;
+    }
+
+    /* bible verse text */
+    .text-black {
+        text-align: left !important;
+    }
+    .text-\[\#522e38\] {
+        text-align: left !important;
+    }
+    [class*="text-"] {
+        text-align: left !important;
+    }
+
+    * {
+        font-family: "yomogi", monospace;
+    }
+    body {
+        display:flex;
+        align-items:center;
+        justify-content: center;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -292,8 +384,8 @@ if tz_string:
  
  
 # title and header of page
-st.write("**welcome!** open sidebar for more.")
-st.markdown("""<style>h1 { color: #1866cc }</style> <h1>lookup a chapter or verse:</h1>""", unsafe_allow_html=True)
+st.markdown("<p style='color: #f56476;'>The Bible is more than a book; it's God's love letter to you</p>", unsafe_allow_html=True)
+st.header("You are *firstloved*, open it today. ꣑ৎ")
 # note: #1866cc
 
 
@@ -306,12 +398,12 @@ with st.sidebar:
     except:
         user_tz = ZoneInfo("America/Los_Angeles")
     now = datetime.now(user_tz)
-    st.markdown(f":blue[helping you get your **daily bread**, even at {now.strftime('%I:%M%p').lstrip('0').lower()} on a random {now.strftime('%A').lower()}.]")
+    st.markdown(f"<p style='color: #333;'>It's {now.strftime('%I:%M%p').lstrip('0')} on a {now.strftime('%A')} & you just recieved a letter.</p>", unsafe_allow_html=True)
 
 
     # check if user is logged in , display dif things
     if st.session_state.user: # logged in
-        if st.button("Log Out", key="logout_btn"):
+        if st.button("Log Out ⊹₊˚", key="logout_btn"):
             logout()
         st.markdown("---")
         
@@ -331,19 +423,19 @@ with st.sidebar:
                             verse_detail_modal(verse)
 
     else: # if user is not logged in, don't show
-        if st.button("Log in", key="open_auth_modal"):
+        if st.button("Log in ⊹₊˚", key="open_auth_modal"):
             auth_modal()
 
     st.markdown("---")
     st.header("Search Instructions")
     st.markdown("""
-    - Search an `entire chapter` like :red[**Philippians 4**]
+    - Search an **entire chapter** like :gray[**Philippians 4**]
     
-    - Search a `single verse` like :red[**Jeremiah 29:11**]
+    - Search a **single verse** like :gray[**Jeremiah 29:11**]
     
-    - Search for a `range of verses` like :red[**Matthew 6:25-34**]
+    - Search for a **range of verses** like :gray[**Matthew 6:25-34**]
     
-    - Search for `multiple chapters` like :red[**John 3:16-4:10**]
+    - Search for **multiple chapters** like :gray[**John 3:16-4:10**]
     
     """)
     
@@ -352,7 +444,7 @@ with st.sidebar:
     with st.form(key="feedback_form", clear_on_submit=True):
         name = st.text_input(label="Send me feedback!", placeholder="Your name")
         message = st.text_input(label="", placeholder="Your message here", label_visibility="collapsed")
-        submitted = st.form_submit_button("Send")
+        submitted = st.form_submit_button("Send ⊹₊˚")
 
         if submitted and name and message:
             supabase.table("feedback").insert({"name":name, "message":message}).execute()
@@ -361,15 +453,16 @@ with st.sidebar:
     # footer
     st.markdown("---")
     st.markdown("""
-                <div style='text-align: center; color: gray;'>
-                <small>Made with ❤️ by Fay</small>
+                <div class='sidebar-footer' style='color: gray;'>
+                <small>Made with ♡ by <a href="https://github.com/wrufay/first-loved" target="_blank" style="color: gray; text-decoration: none;">Fay Wu</a></small>
                 </div>
                 """, unsafe_allow_html=True)
     
     
-
+st.write("")
+st.write("")
 # front page columns (search tool)
-col1, col2, col3, col4 = st.columns([1, 0.5, 0.5, 0.5])
+col1, col2, col3 = st.columns([1, 1, 1])
 with col1:
     TRANSLATIONS = {
         "kjv": "King James Version",
@@ -383,17 +476,25 @@ with col1:
         format_func=lambda x: TRANSLATIONS[x]
     )
 
-
-# display stuff
 with col2:
-    book = st.text_input("Book Name", placeholder="Genesis")
+    book = st.text_input("Book Name", placeholder="1 John")
 
 with col3:
-    verse = st.text_input("Chapter + Verse", placeholder="1:1")
+    verse = st.text_input("Chapter + Verse", placeholder="4:19")
 
-with col4:
-    st.markdown("<br>", unsafe_allow_html=True)
-    search_button = st.button("Search", type="secondary")
+st.write("")
+st.write("")
+btn_col1, btn_col2 = st.columns(2)
+with btn_col1:
+    if "show_ai_chat" not in st.session_state:
+        st.session_state.show_ai_chat = False
+
+    if st.button("˚꩜｡ Learn from Claude" if not st.session_state.show_ai_chat else "˚꩜｡ Hide", use_container_width=True):
+        st.session_state.show_ai_chat = not st.session_state.show_ai_chat
+        st.rerun()
+with btn_col2:
+    search_button = st.button("Search passage ⭑.ᐟ", use_container_width=True)
+    
 
 
 # get the verse with bible api
@@ -402,7 +503,7 @@ def get_verse(book, verse, translation):
     try:
         response = requests.get(url)
         if response.status_code == 404:
-            st.error("Error! Please enter a valid book and verse.")
+            st.error("Invalid input. Please try again with a valid book and chapter.")
             return None
         elif response.status_code == 200: # if successful
             return response.json()
@@ -418,7 +519,7 @@ def get_verse(book, verse, translation):
 def display_verse(bible_content, translation="kjv"):
     if bible_content:
         st.markdown("---")
-        st.badge(f"{bible_content['reference']}", color="blue")
+        st.badge(f"{bible_content['reference']}", color="gray")
         reference = bible_content['reference']
         base_ref = reference.split(':')[0] if ':' in reference else reference
         enduring_word_path = ""
@@ -444,7 +545,8 @@ def display_verse(bible_content, translation="kjv"):
 
         enduring_word_path = f'https://enduringword.com/bible-commentary/{pr}{ch}-{ve}/'
         for v in bible_content["verses"]:
-            st.write(f'`{v["verse"]}` {v["text"]}')
+            st.markdown(f'<p style="text-align: left; color: #333;"><code>{v["verse"]}</code> {v["text"]}</p>', unsafe_allow_html=True)
+
             
         st.markdown("---")
         
@@ -456,7 +558,7 @@ def display_verse(bible_content, translation="kjv"):
                 
                 
         # link to enduring word bible commentary
-        st.page_link(label=f'Read commentary on this chapter from :blue[**Enduring Word**]', page=enduring_word_path)
+        st.page_link(label=f'Read commentary on this chapter from :red[**Enduring Word**]', page=enduring_word_path)
             
         st.markdown("---")
         
@@ -469,58 +571,57 @@ if search_button:
             if result:
                 st.session_state.verse_results = result
                 st.session_state.current_translation = translation
-    elif book and not verse:
-        st.warning("Please enter a chapter and verse.")
-    else:
-        st.warning("Please enter both a book name and verse.")
+    # elif book and not verse:
+    #     st.warning("Please enter a chapter and verse.")
+    # else:
+    #     st.warning("Please enter both a book name and verse.")
 
 
 current_translation = st.session_state.get("current_translation", "kjv")
 display_verse(st.session_state.verse_results, current_translation)
 
 
-# implement large language model kekw
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") or st.secrets.get("OPENAI_API_KEY")
-client = OpenAI(api_key=OPENAI_API_KEY)
+# implement large language model
+if st.session_state.get("show_ai_chat", False):
+    ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY") or st.secrets.get("ANTHROPIC_API_KEY")
+    client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
+    if "anthropic_model" not in st.session_state:
+        st.session_state["anthropic_model"] = "claude-opus-4-5"
 
-if "messages" not in st.session_state:
-    st.session_state.messages = [SYSTEM_PROMPT]
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-for message in st.session_state.messages:
-    if message["role"] != "system":  
+    for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-if prompt := st.chat_input("ask an ai.."):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    with st.chat_message("assistant"):
-        # making sure to provide current verse or chapter for context if available
-        messages_to_send = [
-            {"role": m["role"], "content": m["content"]}
-            for m in st.session_state.messages
-        ]
-        if st.session_state.verse_results:
-            verse_text = "\n".join(
-                f'{v["verse"]}. {v["text"]}' for v in st.session_state.verse_results["verses"]
-            )
-            verse_context = {
-                "role": "system",
-                "content": f"The user is currently viewing {st.session_state.verse_results['reference']}:\n{verse_text}"
-            }
-            messages_to_send.insert(1, verse_context)
+    if prompt := st.chat_input("I'm Claude, ask me anything!"):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        with st.chat_message("assistant"):
+            try:
+                # making sure to provide current verse or chapter for context if available
+                system_message = SYSTEM_PROMPT["content"]
 
-        stream = client.chat.completions.create(
-            model=st.session_state["openai_model"],
-            messages=messages_to_send,
-            stream=True,
-        )
-        response = st.write_stream(stream)
-    st.session_state.messages.append({"role": "assistant", "content": response})
+                if st.session_state.verse_results:
+                    verse_text = "\n".join(
+                        f'{v["verse"]}. {v["text"]}' for v in st.session_state.verse_results["verses"]
+                    )
+                    system_message += f"\n\nThe user is currently viewing {st.session_state.verse_results['reference']}:\n{verse_text}"
+
+                with client.messages.stream(
+                    model=st.session_state["anthropic_model"],
+                    max_tokens=1024,
+                    system=system_message,
+                    messages=st.session_state.messages,
+                ) as stream:
+                    response = st.write_stream(stream.text_stream)
+                st.session_state.messages.append({"role": "assistant", "content": response})
+            except Exception as e:
+                st.error(f"Error: {str(e)}")
+                # Don't append failed message to history
     
 
 
