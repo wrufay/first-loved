@@ -22,9 +22,7 @@
 - Powered by Claude using **Anthropic API**, and gets Bible information from https://bible-api.com/
 - Containerized with **Docker** and deployed on **Render** using **Cloudflare** for the custom domain.
 
-**Check it out - live at *https://firstloved.cc*!**
-
-**Currently working on: ˚⟡˖ ࣪**
+## Currently working on: ˚⟡˖ ࣪\*\*
 
 - **Lots of bugs**, just to name a few:
 
@@ -36,6 +34,7 @@
 
 - **Community features.** This has been the ultimate goal of creating a Bible app from the beginning, but has yet to be brought to fruition!
 
-This project is open source, I'm also _open to collaborate and open to feedback!_ **f26wu[at]uwaterloo[dot]ca**
+### Thanks for stopping by. There's a letter waiting for you on the other side, a daily reminder that you are _firstloved_ ♡
 
-### Thanks for stopping by. I hope you get to open your letter today, have a good one ♡
+*https://firstloved.cc*
+**f26wu[at]uwaterloo[dot]ca**
