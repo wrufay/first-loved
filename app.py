@@ -365,6 +365,7 @@ st.markdown("""
         display:flex;
         align-items:center;
         justify-content: center;
+        text-align: center;
     }
 </style>
 """, unsafe_allow_html=True)

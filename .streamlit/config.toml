@@ -1,0 +1,14 @@
+[client]
+showSidebarNavigation = false
+
+[ui]
+hideSidebarNav = true
+
+[theme]
+base="light"
+primaryColor="#ea9ab2"
+secondaryBackgroundColor="#ffc2d4"
+backgroundColor="#ffeef2"
+textColor="#dd2d4a"
+
+
