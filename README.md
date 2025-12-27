@@ -36,6 +36,6 @@
 
 - Community features. This has been the ultimate goal of creating a Bible app from the beginning, but has yet to be brought to fruition!
 
-This project is open source, I'm also _open to collaborate and open to feedback!_
+This project is open source, I'm also _open to collaborate and open to feedback!_ **f26wu[at]uwaterloo[dot]ca**
 
-Thanks for stopping by. Hope you get to open your letter today, have a good one ♡
+## Thanks for stopping by. I hope you get to open your letter today, have a good one ♡
