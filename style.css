@@ -109,6 +109,11 @@
   background-color: transparent !important;
 }
 
+/* Keep chat messages left-aligned but don't affect main container centering */
+[data-testid="stChatMessage"] {
+  text-align: left;
+}
+
 * {
   transition: all 0.5s ease;
   font-family: "yomogi", serif;

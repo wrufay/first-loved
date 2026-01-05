@@ -257,7 +257,7 @@ if tz_string:
     st.session_state.user_tz = tz_string
 
 # title and header of page
-st.html("<p class='nanum-myeongjo-regular'>1 John 4:19 ꣑ৎ We love because he first loved us.</p>")
+st.html("<p class='nanum-myeongjo-regular' style='text-align: center;'>1 John 4:19 ꣑ৎ We love because he first loved us.</p>")
 
 # encode letter image to base64 for inline display
 def get_base64_image(image_path):
@@ -265,7 +265,7 @@ def get_base64_image(image_path):
         return base64.b64encode(img_file.read()).decode()
 
 emoji_img_base64 = get_base64_image("reading.png")
-st.html(f"<h1 class='nanum-pen-script-regular front-title'>You are firstloved, let's <img src='data:image/png;base64,{emoji_img_base64}' width='30'> read</h1>")
+st.html(f"<h1 class='nanum-pen-script-regular front-title' style='text-align: center;'>You are firstloved, let's <img src='data:image/png;base64,{emoji_img_base64}' width='30'> read</h1>")
 
 
 # sidebar!
